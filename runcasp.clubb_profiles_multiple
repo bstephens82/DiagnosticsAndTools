@@ -1,0 +1,25 @@
+#!/bin/bash
+### Job Name
+#PBS -N runcasp.clubb_profiles_multiple
+### Project code
+#PBS -A P93300642 
+#PBS -l walltime=24:00:00
+#PBS -q casper
+### Merge output and error files
+#PBS -j oe
+#PBS -k eod
+### Example: Select 2 nodes with 36 CPUs each for a total of 72 MPI processes
+#PBS -l select=1:ncpus=1:mpiprocs=1
+### Send email on abort, begin and end
+#PBS -m abe
+### Specify mail recipient
+#PBS -M stepheba@ucar.edu 
+
+# Load modules to match compile-time environment
+module load conda/latest
+conda activate npl
+ml nco
+
+# Run the job
+python CAM_CLUBB_diag_multiple.py
+
