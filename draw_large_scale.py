@@ -14,7 +14,7 @@ import Common_functions
 import os
 from subprocess import call
 
-def large_scale_prf (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs, casedir, dofv, datapath):
+def large_scale_prf (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs, casedir, dofv, datapath, pname, underlev):
 
 
 # ncases, the number of models
@@ -52,8 +52,8 @@ def large_scale_prf (ptype,cseason, ncases, cases, casenames, nsite, lats, lons,
      if not os.path.exists(casedir+'/'+str(lons[ire])+'E_'+str(lats[ire])+'N'):
          os.mkdir(casedir+'/'+str(lons[ire])+'E_'+str(lats[ire])+'N')
 
-     plotname = casedir+'/'+str(lons[ire])+'E_'+str(lats[ire])+'N/Largescale_'+str(lons[ire])+"E_"+str(lats[ire])+"N_"+cseason
-     plotlgs[ire] = 'Largescale_'+str(lons[ire])+"E_"+str(lats[ire])+"N_"+cseason
+     plotname = casedir+'/'+str(lons[ire])+'E_'+str(lats[ire])+'N/'+pname+'_'+str(lons[ire])+"E_"+str(lats[ire])+"N_"+cseason
+     plotlgs[ire] = pname+'_'+str(lons[ire])+"E_"+str(lats[ire])+"N_"+cseason
 
      wks= Ngl.open_wks(ptype,plotname)
      Ngl.define_colormap(wks,"GMT_paired")
@@ -211,23 +211,33 @@ def large_scale_prf (ptype,cseason, ncases, cases, casenames, nsite, lats, lons,
              A_field[im,:] = A_field[im,:] *cscale[iv]
              inptrs.close()
 
+         if underlev == 0:
+             levind=0
+             levindobs=len(pre1)
+         else:
+             pre1b=np.absolute(pre1-underlev)
+             levindobs=pre1b.argmin()
+             levb=np.absolute(lev-underlev)
+             levind=levb.argmin()
+
          res.tiMainString  =  varis[iv]+"  "+theunits
-         res.trXMinF = min(np.min(A_field[0, :]),np.min(B))
-         res.trXMaxF = max(np.max(A_field[0, :]),np.max(B))
-         res.trYMinF = np.min(lev)
+         res.trXMinF = min(np.min(A_field[:, levind:]),np.min(B[:levindobs]))
+         res.trXMaxF = max(np.max(A_field[:, levind:]),np.max(B[:levindobs]))
+         res.trYMinF = max(np.min(lev),underlev)
          res.trYMaxF = np.max(lev)
-         if(varis[iv] == "THETA"):
-             res.trXMinF = 270.
-             res.trXMaxF = 400.
-         if(varis[iv] == "CLOUD" or varis[iv] =="RELHUM") :
-             res.trXMinF = 0.
-             res.trXMaxF = 100.
-         if(varis[iv] == "T") :
-             res.trXMinF = 180
-             res.trXMaxF = 300
-         if(varis[iv] == "U") :
-             res.trXMinF = -40
-             res.trXMaxF = 40
+         if underlev == 0:
+             if(varis[iv] == "THETA"):
+                 res.trXMinF = 270.
+                 res.trXMaxF = 400.
+             if(varis[iv] == "CLOUD" or varis[iv] =="RELHUM") :
+                 res.trXMinF = 0.
+                 res.trXMaxF = 100.
+             if(varis[iv] == "T") :
+                 res.trXMinF = 180
+                 res.trXMaxF = 300
+             if(varis[iv] == "U") :
+                 res.trXMinF = -40
+                 res.trXMaxF = 40
          res.trYReverse        = True
          res.xyLineColors      = np.arange(3,20,2)
          res.xyMarkerColors    = np.arange(2,20,2)

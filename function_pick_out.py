@@ -34,7 +34,7 @@ def pick_out(ncases, cases,years, nsite,lats, lons,area, filepath,casedir,fv,dat
 
  for im in range(0,ncases):
     
-     infile=filepath[im]+cases[im]+'.cam.h0.'+str(years[im]).rjust(4,'0')+'-01.nc'
+     infile=filepath[im]+cases[im]+'.cam.h0a.'+str(years[im]).rjust(4,'0')+'-01.nc'
 
      print(infile)
      print(im)
