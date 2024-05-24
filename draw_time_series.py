@@ -55,14 +55,14 @@ def ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons,y
    varstring = varstring + f"{varis[i]},"
 
  for im in range(ncases):
-   os.mkdir("./data/temp")
+   os.mkdir(datapath+"temp")
    histlist=[]
    for iy in range(nyear[im]):
      histlist=histlist+sorted(glob.glob(filepath[im]+f"/*cam.h0a."+str(years[im]+iy).rjust(4,'0')+"*"))
    for ifile,file in enumerate(histlist):
-     os.system(f"ncea -v {varstring[0:-1]} {file} -o ./data/temp/{casenames[im]}_"+str(ifile).rjust(2,'0')+".nc")
-   os.system(f"ncrcat ./data/temp/*.nc data/{casenames[im]}_timeseries.nc")
-   os.system("rm -rf data/temp")
+     os.system(f"ncea -v {varstring[0:-1]} {file} -o {datapath}temp/{casenames[im]}_"+str(ifile).rjust(2,'0')+".nc")
+   os.system(f"ncrcat {datapath}temp/*.nc data/{casenames[im]}_timeseries.nc")
+   os.system("rm -rf {datapath}/temp")
 
 
  for ire in range (0, nsite):

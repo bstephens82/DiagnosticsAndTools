@@ -23,5 +23,5 @@ ml nco
 
 
 ### Run the executable(s)
-python CAM_CLUBB_diag_single_vs_cntl.py
+python CAM_CLUBB_diag_single_case.py
 
