@@ -186,8 +186,6 @@ def clubb_std_prf (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, f
                         tmp [0:10] = 0.0
                         theunits=str(chscale[iv])+'x'+inptrs.variables[varis[iv]].units+'^-1'
 
-
-
                  A_field[im,:] = (A_field[im,:]+tmp[:]/n[ire]).astype(np.float32 )
              A_field[im,:] = A_field[im,:] *cscale[iv]
 
@@ -208,7 +206,6 @@ def clubb_std_prf (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, f
          res.trYReverse        = True
          res.xyLineColors      = np.arange(3,20,2)
          res.xyMarkerColors    = np.arange(2,20,2)
-         print("clubb std A field shape, lev shape = ",A_field.shape,lev.shape)
          p = Ngl.xy(wks,A_field,lev,res)
          
 #         res.trYReverse        = False

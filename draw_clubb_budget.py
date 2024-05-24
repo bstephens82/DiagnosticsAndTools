@@ -14,7 +14,7 @@ import os
 from subprocess import call
 
  
-def draw_clubb_bgt (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,dofv,datapath):
+def draw_clubb_bgt (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,dofv,datapath, underlev):
 
 # ncases, the number of models
 # cases, the name of models
@@ -66,6 +66,9 @@ def draw_clubb_bgt (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, 
 #         res.txFontHeightF   = .01
          # res.vpXF             = 0.04
          # res.vpYF             = 0.30
+         res.trYMinF = underlev
+         res.trYMaxF = 1000.
+
          res.tmYLLabelFont  = _Font
          res.tmXBLabelFont  = _Font
          res.tmXBLabelFontHeightF = 0.005

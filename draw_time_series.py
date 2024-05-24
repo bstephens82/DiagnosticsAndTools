@@ -17,7 +17,7 @@ import Common_functions
 from subprocess import call
 
 
-def ts_plots(ptype,cseason, ncases, cases, casenames, nsite, lats, lons,years,nyear, filepath, filepathobs,casedir, dofv,datapath):
+def ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons,years,nyear, filepath, filepathobs,casedir, dofv,datapath):
 
 # ncases, the number of models
 # cases, the name of models
@@ -39,7 +39,9 @@ def ts_plots(ptype,cseason, ncases, cases, casenames, nsite, lats, lons,years,ny
  ncdfs    = ["" for x in range(ncases)]
  nregions = nsite
 
- varis    = [ "TS", "CLDLOW", "SHFLX", "LHFLX", "FSNS", "FLNS" ]
+# varis    = [ "TS", "CLDLOW", "SHFLX", "LHFLX", "FSNS", "FLNS", \
+#              "SWCF", "LWCF", "PRECC", "PRECL", "PRECT", "FSNT", \
+#              "FLNT", "TMQ", "PSL", "TGCLDLWP", "TGCLPIWP", "U10" ]
  nvaris = len(varis)
  cscale = [1, 1, 1, 1, 1., 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
  plotts=["" for x in range(nsite)]
@@ -49,16 +51,15 @@ def ts_plots(ptype,cseason, ncases, cases, casenames, nsite, lats, lons,years,ny
  # right now this just takes the years and nyears from the main python file, 
  # it doesn't deal with the extra two months
  varstring = ""
- for i in range(len(varis)):
+ for i in range(nvaris):
    varstring = varstring + f"{varis[i]},"
 
  for im in range(ncases):
    os.mkdir("./data/temp")
    histlist=[]
    for iy in range(nyear[im]):
-     histlist=histlist+sorted(glob.glob(filepath[im]+f"/*cam.h0."+str(years[im]+iy).rjust(4,'0')+"*"))
+     histlist=histlist+sorted(glob.glob(filepath[im]+f"/*cam.h0a."+str(years[im]+iy).rjust(4,'0')+"*"))
    for ifile,file in enumerate(histlist):
-#     print(f"ncea -v {varstring[0:-1]} {file} -o ./data/temp/{casenames[im]}_"+str(ifile).rjust(2,'0')+".nc") 
      os.system(f"ncea -v {varstring[0:-1]} {file} -o ./data/temp/{casenames[im]}_"+str(ifile).rjust(2,'0')+".nc")
    os.system(f"ncrcat ./data/temp/*.nc data/{casenames[im]}_timeseries.nc")
    os.system("rm -rf data/temp")

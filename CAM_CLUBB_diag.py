@@ -11,29 +11,30 @@ Main code to make 1) 2D plots,2) profiles, 3) budgets on selected stations,
 # Begin User Defined Settings
 # User defined name used for this comparison, this will be the name 
 #   given the directory for these diagnostics
-case='080tests_w_ts'
+case='taus_144_zhun'
 outdir="/glade/work/stepheba/post/DiagnosticsAndTools/diags_output/"
 
-cases=['flthist134.080config']
+filepath=['/glade/derecho/scratch/stepheba/archive/taus_144_zhun/atm/hist/']
 
-filepath=['/glade/derecho/scratch/stepheba/archive/flthist134.080config/atm/hist/']
-#for i in range(1,len(cases)):
-#    filepath.append("/glade/derecho/scratch/stepheba/archive/"+cases[i]+"/atm/hist/")
-
+cases=['taus_144_zhun']
+       
 # Give a short name for your experiment which will appears on plots
+
+#casenames=["dflt107","107.splat0.5","107.splat2.0","test050323","test050323_splat0.5"]
 casenames=cases #["037_f2c","044_f2c","044_f2c_sfc0.2","044_f2c_gammashear"]
 
-years=[1979,1979,1979,1979,1979]
-nyear=[1,1,1,1,1]
+years=[1979]
+nyear=[2]
 
-datapath='/glade/work/stepheba/post/DiagnosticsAndTools/data/'
-
-# NOTE, dpsc,deep scheme, has to be 'none', if silhs is turned on.
 dpsc=['zm']
+# NOTE, dpsc,deep scheme, has to be 'none', if silhs is turned on. 
+
+datapath="/glade/work/stepheba/post/DiagnosticsAndTools/data/"
 
 # Observation Data
-#filepathobs='/glade/p/cesm/amwg/amwg_data/obs_data/'
-filepathobs='/glade/campaign/cgd/amp/amwg/amwg_data/obs_data/'
+#filepathobs='/global/project/projectdirs/m2689/zhun/amwg/obs_data_20140804/'
+#filepathobs='/blues/gpfs/home/ac.zguo/amwg_diag_20140804/obs_data_20140804/'
+filepathobs='/glade/campaign/cgd/amp/amwg/amwg_data/obs_data/' #'/glade/p/cesm/amwg/amwg_data/obs_data/'
 #------------------------------------------------------------------------
 # Setting of plots.
 ptype         ='png'   # eps, pdf, ps, png, x11, ... are supported by this package
@@ -46,7 +47,7 @@ calmean          = True       # make mean states
 findout          = True       # pick out the locations of your sites
 draw2d           = True       # 2D plots, SWCF etc.
 drawlarge        = True       # profiles for large-scale variable on your sites 
-drawclubb        = True   # profiles for standard clubb output
+drawclubb        = True       # profiles for standard clubb output
 drawskw          = False       # profiles for skewness functions
 drawts           = True        # plot time series of a few variables
 drawrain         = False       # profiles for SNOW, Rain etc.
@@ -68,10 +69,8 @@ area  = 1.
 #------------------------------------------------------------------------
 # Please give the lat and lon of sites here.
 # sites    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   21   23   24   25   26   27   28   29   30  31  32 33
-lats = [  20,  27, -20, -20,  -5,  -1,  60,   2,   9,   56,  45,   0,  10,  20,   0,   5,   9, -60,   0,   0, -45, -75,  30,  25 , 70 , 15,  17,  13,  36, 28, 29, 30, 27 , 30, 27, -2, -2, -2, -2, -2, -2, -2, -2, -7, -7, -7, -7, -7, -7, -7, -7, -12, -12, -12, 12, -12, -12, -12, -12, -17, -17, -17, -17, -17, -17, -17, -17]
-lons = [ 190, 240, 275, 285, 355, 259,  180, 140, 229, 311, 180, 295,  90, 205, 325, 280, 170, 340, 305,  25,  90,  90,  90, 105 , 90, 300, 300, 300, 263, 240,240, 240 , 242, 238, 238, 245, 250, 255, 260, 265, 270, 275, 280, 245, 250, 255, 260, 265, 270, 275, 280, 245, 250, 255, 260, 265, 270, 275, 280, 245, 250, 255, 260, 265, 270, 275, 280]
-
-
+lats = [  20,  27, -20, -20,  -5,  -1,  60,   2,   9,   56,  45,   0,  10,  20,   0,   5,   9, -60,   0,   0, -45, -75,  30,  25 , 70 , 15,  17,  13,  36, 28, 29, 30, 27 , 30, 27, -2, -2, -2, -2, -2, -2, -2, -2, -7, -7, -7, -7, -7, -7, -7, -7, -12, -12, -12, 12, -12, -12, -12, -12, -17, -17, -17, -17, -17, -17, -17, -17, -20, -22, -24, -26, -28, -20, -22, -24, -26, -28, -20, -22, -24, -26, -28]
+lons = [ 190, 240, 275, 285, 355, 259,  180, 140, 229, 311, 180, 295,  90, 205, 325, 280, 170, 340, 305,  25,  90,  90,  90, 105 , 90, 300, 300, 300, 263, 240,240, 240 , 242, 238, 238, 245, 250, 255, 260, 265, 270, 275, 280, 245, 250, 255, 260, 265, 270, 275, 280, 245, 250, 255, 260, 265, 270, 275, 280, 245, 250, 255, 260, 265, 270, 275, 280, 260, 260, 260, 260, 260, 265, 265, 265, 265, 265, 270, 270, 270, 270, 270]
 
 #========================================================================
 
@@ -111,9 +110,6 @@ if not os.path.exists(outdir):
 if not os.path.exists(casedir):
     os.mkdir(casedir)
 
-if not os.path.exists(datapath):
-    os.mkdir(datapath)
-
 if calmean:
     print('Getting climatological mean')
     function_cal_mean.cal_mean(ncases, cases, years,nyear, nsite, lats, lons, area, filepath)
@@ -130,7 +126,13 @@ if draw2d:
 
 if drawlarge:
     print('Drawing Large-scale variables on selected sites')
-    plotlgs=draw_large_scale.large_scale_prf(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,calfvsite,datapath)
+    pname = "Largescale"
+    underlev = 0
+    plotlgs=draw_large_scale.large_scale_prf(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,calfvsite,datapath,pname, underlev)
+
+    pname = "Largescale_lev"
+    underlev = 750
+    plotlgs_lev=draw_large_scale.large_scale_prf(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,calfvsite,datapath,pname, underlev)
 
 if drawclubb:
     print('Drawing CLUBB standard variables on selected sites')
@@ -196,11 +198,18 @@ if drawskw:
 
 if drawts:
     print('Drawing time series on selected sites')
-    plotts=draw_time_series.ts_plots(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, years, nyear, filepath, filepathobs,casedir,calfvsite,datapath)
+    varis = [ "TS", "CLDLOW", "SHFLX", "LHFLX", "FSNS", "FLNS"]
+    plotts1=draw_time_series.ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons, years, nyear, filepath, filepathobs,casedir,calfvsite,datapath)
+
+    varis =[ "SWCF", "LWCF", "PRECC", "PRECL", "TAUX", "TAUY"]
+    plotts2=draw_time_series.ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons, years, nyear, filepath, filepathobs,casedir,calfvsite,datapath)
+
+    varis =[ "FSNT", "FLNT", "TMQ", "TGCLDLWP", "TGCLDIWP", "U10" ]
+    plotts3=draw_time_series.ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons, years, nyear, filepath, filepathobs,casedir,calfvsite,datapath)
 
 if drawsilhs:
     print('CLUBB standard variables on selected sites')
-    plotsilhs=draw_silhs_standard.silhs_prf(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,datapath)
+    plotsilhs=draw_silhs_standard.silhs_prf(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir)
 
 if drawhf:
     print('Holl filler')
@@ -282,25 +291,29 @@ if drawbgt:
     cscale  = [     1,    1,    1,    1,1,1]
     chscale = [   '1',  '1',  '1',  '1', '1', '1']
     pname = 'Budget1'
-    plotbgt1=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath)
+    underlev = 750
+    plotbgt1=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
 
     varis    = [ 'wprtp','wpthlp',  'rtp2', 'thlp2']
     cscale   = [     1E7,     1E4,    1E11,     1E4]
     chscale  = [  '1E-7',  '1E-4', '1E-11',  '1E-4']
     pname = 'Budget2'
-    plotbgt2=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath)   
+    underlev = 750
+    plotbgt2=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)   
 
     varis   = [  'um',   'rtpthlp',  'thlm',   'rtm']
     cscale  = [   1E4,    1E4,     1E5,     1E8]
     chscale = ['1E-4', '1E-4',  '1E-5',  '1E-8']
     pname = 'Budget3'
-    plotbgt3=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath)  
+    underlev = 750
+    plotbgt3=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)  
 
     varis   = ['upwp','vpwp']
     cscale  = [1,1]
     chscale = ['1', '1']
     pname = 'Budget4'
-    plotbgt4=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath)
+    underlev = 750
+    plotbgt4=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
 
 if makeweb:
     print('Making webpages')
@@ -321,19 +334,22 @@ if makeweb:
         plotclb=[]
         if (drawlarge):
            plotclb.append(plotlgs[ire])
+           plotclb.append(plotlgs_lev[ire])
         if (drawclubb):  
            plotclb.append(plotstd1[ire])
            plotclb.append(plotstd2[ire])
            plotclb.append(plotstd3[ire])
            plotclb.append(plotstd4[ire])
-           plotclb.append(plottau[ire])
+#           plotclb.append(plottau[ire])
            plotclb.append(plotstd1_lev[ire])
            plotclb.append(plotstd2_lev[ire])
            plotclb.append(plotstd3_lev[ire])
            plotclb.append(plotstd4_lev[ire])
 
         if (drawts):
-           plotclb.append(plotts[ire])
+           plotclb.append(plotts1[ire])
+           plotclb.append(plotts2[ire])
+           plotclb.append(plotts3[ire])
 
         if (drawskw):
            plotclb.append(plotskw[ire])
