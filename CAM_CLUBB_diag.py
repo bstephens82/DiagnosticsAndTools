@@ -291,29 +291,51 @@ if drawbgt:
     cscale  = [     1,    1,    1,    1,1,1]
     chscale = [   '1',  '1',  '1',  '1', '1', '1']
     pname = 'Budget1'
-    underlev = 750
+    underlev = 0
     plotbgt1=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
 
     varis    = [ 'wprtp','wpthlp',  'rtp2', 'thlp2']
     cscale   = [     1E7,     1E4,    1E11,     1E4]
     chscale  = [  '1E-7',  '1E-4', '1E-11',  '1E-4']
     pname = 'Budget2'
-    underlev = 750
     plotbgt2=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)   
 
     varis   = [  'um',   'rtpthlp',  'thlm',   'rtm']
     cscale  = [   1E4,    1E4,     1E5,     1E8]
     chscale = ['1E-4', '1E-4',  '1E-5',  '1E-8']
     pname = 'Budget3'
-    underlev = 750
     plotbgt3=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)  
 
     varis   = ['upwp','vpwp']
     cscale  = [1,1]
     chscale = ['1', '1']
     pname = 'Budget4'
-    underlev = 750
     plotbgt4=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
+
+    varis   = [ 'wp2','wp3','up2','vp2','upwp','vpwp']
+    cscale  = [     1,    1,    1,    1,1,1]
+    chscale = [   '1',  '1',  '1',  '1', '1', '1']
+    pname = 'Budget1_lev'
+    underlev = 750
+    plotbgt1_lev=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
+
+    varis    = [ 'wprtp','wpthlp',  'rtp2', 'thlp2']
+    cscale   = [     1E7,     1E4,    1E11,     1E4]
+    chscale  = [  '1E-7',  '1E-4', '1E-11',  '1E-4']
+    pname = 'Budget2_lev'
+    plotbgt2_lev=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
+
+    varis   = [  'um',   'rtpthlp',  'thlm',   'rtm']
+    cscale  = [   1E4,    1E4,     1E5,     1E8]
+    chscale = ['1E-4', '1E-4',  '1E-5',  '1E-8']
+    pname = 'Budget3_lev'
+    plotbgt3_lev=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
+
+    varis   = ['upwp','vpwp']
+    cscale  = [1,1]
+    chscale = ['1', '1']
+    pname = 'Budget4_lev'
+    plotbgt4_lev=draw_clubb_budget.draw_clubb_bgt(ptype,cseason, ncases, cases, casenames, nsite, lats, lons, filepath, filepathobs,casedir,varis,cscale,chscale,pname,calfvsite,datapath,underlev)
 
 if makeweb:
     print('Making webpages')
@@ -385,6 +407,14 @@ if makeweb:
                plotclb.append(plotbgt3[ire*ncases+im])
            for im in range (0, ncases ):
                plotclb.append(plotbgt4[ire*ncases+im])
+           for im in range (0, ncases ):
+               plotclb.append(plotbgt1_lev[ire*ncases+im])
+           for im in range (0, ncases ):
+               plotclb.append(plotbgt2_lev[ire*ncases+im])
+           for im in range (0, ncases ):
+               plotclb.append(plotbgt3_lev[ire*ncases+im])
+           for im in range (0, ncases ):
+               plotclb.append(plotbgt4_lev[ire*ncases+im])
 
         Diagnostic_webpage.sets_web(casename,casedir,plotclb,str(lons[ire])+'E_'+str(lats[ire])+'N',\
                                   'Profiles on '+str(lons[ire])+'E_'+str(lats[ire])+'N','908','636')

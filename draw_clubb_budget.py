@@ -53,15 +53,32 @@ def draw_clubb_bgt (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, 
          plotname = casedir+'/'+str(lons[ire])+'E_'+str(lats[ire])+'N/'+pname+'_'+casenames[im]+"_"+str(lons[ire])+"E_"+str(lats[ire])+"N_"+cseason
          plotbgt[im+ncases*ire] = pname+'_'+casenames[im]+"_"+str(lons[ire])+"E_"+str(lats[ire])+"N_"+cseason
 
-         wks= Ngl.open_wks(ptype,plotname)
-
-         Ngl.define_colormap(wks,"radar")
+#start commnt
+#         wks= Ngl.open_wks(ptype,plotname)
+#
+#         Ngl.define_colormap(wks,"radar")
          plot = []
-         res     = Ngl.Resources()  
+#         res     = Ngl.Resources()  
+#         res.nglDraw              = False
+#         res.nglFrame             = False
+#         res.vpWidthF         = 0.30                      # set width and height
+#         res.vpHeightF        = 0.30
+#end comment
+
+#start new
+         res     = Ngl.Resources()
+         res.wkWidth = 3000
+         res.wkHeight = 3000
+         res.nglMaximize          =  False
          res.nglDraw              = False
          res.nglFrame             = False
+         res.lgPerimOn            = False                 # no box around
          res.vpWidthF         = 0.30                      # set width and height
          res.vpHeightF        = 0.30
+    
+         wks= Ngl.open_wks(ptype,plotname,res)
+         Ngl.define_colormap(wks,"radar")
+#end new
 
 #         res.txFontHeightF   = .01
          # res.vpXF             = 0.04
@@ -161,11 +178,11 @@ def draw_clubb_bgt (ptype,cseason, ncases, cases, casenames, nsite, lats, lons, 
                  budget_ends = ["_bt", "_ma", "_ta", "_tp1","_tp2","_dp1","_dp2", "_cl", "_sf", "_forcing"]
                  nterms = len (budget_ends)
              if (varis[iv] == "wp2") :
-                 budget_ends = ["_bt", "_ma", "_ta", "_ac","_bp","_pr1","_pr2", "_pr3","_dp1","_dp2", "_cl", "_pd", "_sf"]
+                 budget_ends = ["_bt", "_ma", "_ta", "_ac","_bp","_pr1","_pr2", "_pr3","_pr_dfsn","_dp1","_dp2", "_cl", "_pd", "_sf"]
                  nterms = len (budget_ends)
 
              if (varis[iv] == "wp3") :
-                 budget_ends = ["_bt", "_ma", "_ta", "_tp", "_ac","_bp1","_pr1","_pr2","_dp1", "_cl"]
+                 budget_ends = ["_bt", "_ma", "_ta", "_tp", "_ac","_bp1","_pr1","_pr2","_pr3","_pr_turb","_pr_dfsn","_pr_tp","_dp1", "_cl"]
                  nterms = len (budget_ends)
 
              if (varis[iv] == "up2" or varis[iv] == "vp2") :

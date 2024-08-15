@@ -55,14 +55,15 @@ def ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons,y
    varstring = varstring + f"{varis[i]},"
 
  for im in range(ncases):
-   os.mkdir(datapath+"temp")
+   if not os.path.exists(datapath+"/temp"):
+     os.mkdir(datapath+"/temp")
    histlist=[]
    for iy in range(nyear[im]):
      histlist=histlist+sorted(glob.glob(filepath[im]+f"/*cam.h0a."+str(years[im]+iy).rjust(4,'0')+"*"))
    for ifile,file in enumerate(histlist):
-     os.system(f"ncea -v {varstring[0:-1]} {file} -o {datapath}temp/{casenames[im]}_"+str(ifile).rjust(2,'0')+".nc")
-   os.system(f"ncrcat {datapath}temp/*.nc data/{casenames[im]}_timeseries.nc")
-   os.system("rm -rf {datapath}/temp")
+     os.system(f"ncea -v {varstring[0:-1]} {file} -o {datapath}/temp/{casenames[im]}_"+str(ifile).rjust(2,'0')+".nc")
+   os.system(f"ncrcat {datapath}/temp/*.nc {datapath}/{casenames[im]}_timeseries.nc")
+   os.system(f"rm -rf {datapath}/temp")
 
 
  for ire in range (0, nsite):
@@ -126,8 +127,8 @@ def ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons,y
 
 
          for im in range (0,ncases):
-             ncdfs[im]  = datapath+cases[im]+'_site_location.nc'
-             infiles=f"./data/{casenames[im]}_timeseries.nc" 
+             ncdfs[im]  = datapath+"/"+cases[im]+'_site_location.nc'
+             infiles=f"{datapath}/{casenames[im]}_timeseries.nc" 
 #             for i in range(nyear[im]):
 #                 infiles=infiles+filepath[im]+f"/*cam.h0."+str(years[im]+i).rjust(4,'0')+"*"
              print("infiles = ",infiles)
@@ -156,6 +157,7 @@ def ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons,y
                  else:
                    tmp=np.array(inptrs[varis[iv]])[:,npoint]
                  theunits=str(cscale[iv])+inptrs[varis[iv]].units
+                 print("A_field.shape, tmp.shape = ",A_field.shape,tmp.shape)
                  A_field[im,:] = (A_field[im,:]+tmp[:]/n[ire]).astype(np.float32 )
              A_field[im,:] = A_field[im,:] *cscale[iv]
              inptrs.close()
@@ -181,7 +183,7 @@ def ts_plots(ptype,cseason, varis, ncases, cases, casenames, nsite, lats, lons,y
      Ngl.frame(wks)
      Ngl.destroy(wks)
 
- os.system("rm data/*timeseries*")
+ os.system(f"rm {datapath}/*timeseries*")
 
  return plotts
 
